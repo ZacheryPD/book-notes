@@ -23,7 +23,7 @@
       echo "Literate programming is very interesting."
     #+END_SRC
 
-    It can be executed in Spacemacs with `<SPC> m b e`! In particular, that
+    It can be executed in Spacemacs with ~<SPC> m b e~! In particular, that
     block generates this when run:
     
     #+BEGIN_EXAMPLE
