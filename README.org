@@ -17,14 +17,17 @@
     produce the actual code you want. Org mode has some ability to do that
     native and I am going to use that functionality. 
 
-    For example, if I add a script below it will give you the following results:
+    For example, if I add a script below:
     #+BEGIN_SRC shell
       echo "Hello, world!"
       echo "Literate programming is very interesting."
     #+END_SRC
 
+    It can be executed in Spacemacs with `<SPC> m b e`! In particular, that
+    block generates this when run:
+    
+    #+BEGIN_EXAMPLE
     #+RESULTS:
     | Hello,   | world!      |    |      |              |
     | Literate | programming | is | very | interesting. |
-
-    Which you can generate right inside Spacemacs using `<SPC> m b e`! 
+    #+END_EXAMPLE
