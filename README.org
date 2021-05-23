@@ -51,3 +51,34 @@
 
     #+RESULTS:
     : zacherydelong :1           2021-05-21 08:59 (:1)
+
+    Even more useful, though, is a way to count the users logged into the
+    system. Since ~who~ outputs one user per line, if we counted the number of
+    lines, we could easily see how many users there are. The Unix program ~wc~
+    can do many things, but when used with ~-l~ will only output the number of
+    lines.
+
+    To move the output of ~who~ into the input of ~wc -l~ we use a Unix pipe
+    (~|~). 
+
+    #+BEGIN_SRC shell :tangle chapter2_count_logged_in_users.sh
+      who | wc -l
+    #+END_SRC
+
+    #+RESULTS:
+    : 1
+
+*** Making scripts run-able
+
+    There is one more step in making files executable, and that's telling the
+    interpreter how to run them. You can do this with a special metadata comment
+    ~#!~. This comment (when followed by the path to a particular shell) will
+    ensure that the correct shell runs your scripts. For most of my scripts I
+    will use ~/bin/sh~ which is the path on my Linux systems to zsh, my
+    preferred shell.
+
+    It's worth noting that the system will usually have a default, so often you
+    can get away without that line. That being said, it's a good best practice.
+    Also, you can do all kinds of things this way. For example, you could make
+    an ~awk~ shell script this way or even run python or some other shell
+    scripting language.
