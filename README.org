@@ -1,0 +1,30 @@
+* Classic Shell Scripting
+
+** Housekeeping
+
+*** What is this project?
+
+    This project is my attempt to document my notes as I read through the book
+    Classic Shell Scripting. This book attempts to guide the reader through
+    common shell scripting tasks in Bash. I thought the examples (and some of my
+    own prototypes) would be good candidates for literate programming.
+
+*** Literate programming
+
+    Literate programming is a technique where you invert the priority of code
+    and comments, writing primarily documentation explaining your thought
+    process with code examples interspersed which can be combined in some way to
+    produce the actual code you want. Org mode has some ability to do that
+    native and I am going to use that functionality. 
+
+    For example, if I add a script below it will give you the following results:
+    #+BEGIN_SRC shell
+      echo "Hello, world!"
+      echo "Literate programming is very interesting."
+    #+END_SRC
+
+    #+RESULTS:
+    | Hello,   | world!      |    |      |              |
+    | Literate | programming | is | very | interesting. |
+
+    Which you can generate right inside Spacemacs using `<SPC> m b e`! 
