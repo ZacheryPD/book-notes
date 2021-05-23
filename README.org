@@ -18,7 +18,7 @@
     native and I am going to use that functionality. 
 
     For example, if I add a script below:
-    #+BEGIN_SRC shell
+    #+BEGIN_SRC shell :tangle preface.sh
       echo "Hello, world!"
       echo "Literate programming is very interesting."
     #+END_SRC
@@ -31,3 +31,23 @@
     | Hello,   | world!      |    |      |              |
     | Literate | programming | is | very | interesting. |
     #+END_EXAMPLE
+
+    
+** Chapter 1
+
+   This chapter is primarily a history lesson and doesn't contain many useful
+   code examples. Very interesting, but not useful for this reference.
+   
+** Chapter 2
+
+*** Who
+
+    The who command prints out information about the currently logged in
+    user(s)! On a shared machine, I'd expect this to return many users
+
+    #+BEGIN_SRC shell :tangle chapter2_who.sh
+      who
+    #+END_SRC
+
+    #+RESULTS:
+    : zacherydelong :1           2021-05-21 08:59 (:1)
