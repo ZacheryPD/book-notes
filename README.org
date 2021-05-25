@@ -82,3 +82,72 @@
     Also, you can do all kinds of things this way. For example, you could make
     an ~awk~ shell script this way or even run python or some other shell
     scripting language.
+
+*** Variables
+
+    Variables at the shell can start with an underscore (_) or a letter. They
+    may not contain symbols.
+
+    If you want to create and assign a new variable, you can follow the name
+    with an equal sign. To print that variable, use echo and precede the name
+    with a ~$~.
+
+    #+BEGIN_SRC shell :tangle chapter2_variables.sh
+      my_number=4
+
+      echo $my_number
+    #+END_SRC
+
+    #+RESULTS:
+    : 4
+
+    You can assign strings with or without quotes, but if the value has to
+    contain spaces, you must use quotes.
+
+    #+BEGIN_SRC shell :tangle chapter2_variables.sh
+      my_string_without_spaces=hello
+
+      my_greeting_with_spaces="hello, world!"
+
+      echo $my_string_without_spaces
+      echo $my_greeting_with_spaces
+    #+END_SRC
+
+    #+RESULTS:
+    | hello |        |
+    | hello | world! |
+
+    There is also some basic string interpolation across strings, which is
+    pretty neat in such an old language.
+
+    #+BEGIN_SRC shell :tangle chapter2_variables.sh
+      first_name=Zachery
+      middle_name=Paul
+      last_name=DeLong
+
+      full_name="$last_name, $first_name $middle_name"
+
+      echo $full_name
+    #+END_SRC
+
+    #+RESULTS:
+    | DeLong | Zachery Paul |
+
+**** A note about echo
+
+     One cool thing about ~echo~ is the ~-n~ option that can stop echo from
+     printing a newline. This is handy for taking input on the same line as the
+     prompt, but not all systems support it. Fortunately, PopOS (my current
+     operating system) does package a version of ~echo~ that has it!
+
+**** printf
+
+     In part because of the lack of standardization mentioned above, it's
+     usually a good idea to use the ~printf~ command when your output is more
+     complex. In the simplest case, it's pretty easy to use.
+
+     #+BEGIN_SRC shell :tangle chapter2_variables.sh
+       printf "Hello, world, from printf!\n"
+     #+END_SRC
+
+     Note the manually added newline!
