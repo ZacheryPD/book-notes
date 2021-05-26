@@ -150,4 +150,97 @@
        printf "Hello, world, from printf!\n"
      #+END_SRC
 
-     Note the manually added newline!
+     Note the manually added newline! The real power of ~printf~ comes from
+     formatting strings.
+
+     #+BEGIN_SRC shell :tangle chapter2_variables.sh
+       printf "%s, %s" hello world
+     #+END_SRC
+
+     #+RESULTS:
+     | hello | world |
+
+     
+*** I/O Redirection
+
+    You already know what standard input/output/error are, and redirection is
+    how you get programs to use things other than the standard terminal to
+    handle those things. You can use ~<~ to change standard input, and you can
+    use ~>~ to change standard output.
+
+    Normally echo works on standard output (the terminal) but you can redirect
+    it to a file.
+    #+BEGIN_SRC shell :tangle chapter2_io_redirection.sh
+      echo "This is interesting" > output.txt
+
+      cat output.txt
+
+      rm output.txt 
+    #+END_SRC
+
+    #+RESULTS:
+    : This is interesting
+
+    Note that writing to a file with output redirection (~>~) will overwrite the
+    file if it exists. To append instead, use ~>>~.
+
+*** Pipelines (pipes)
+
+    When working with output your have two options in most cases.
+    + Write your output to a temporary file and read it in the next program
+    + Pipe the output of one program as input to another program
+
+    In general, pipes are much faster than file operations, so they should often
+    be preferred (depending on context of course). We have already used an
+    example of pipes in one of our first programs [[*Who][our user count]]!
+
+    
+*** TR
+
+    The TR command can be used to do transliteration. It takes a list of
+    characters to operate on and an input.
+
+    #+BEGIN_SRC shell :tangle chapter2_tr.sh
+      file_name="file.txt"
+
+      echo "this will be upper cased" > $file_name
+
+      cat $file_name
+
+      # Notice the quotes! Apparently this version requires them
+      cat $file_name | tr "[:lower:]" "[:upper:]"
+
+      rm $file_name
+    #+END_SRC
+
+    #+RESULTS:
+    | this | will | be | upper | cased |
+    | THIS | WILL | BE | UPPER | CASED |
+
+    You can also use it to delete characters
+
+    #+BEGIN_SRC shell :tangle chapter2_tr.sh
+      file_name="file.txt"
+
+      echo "thibs habbbbs abbbb lbot of jbbbunk in ibbbt." > $file_name
+
+      cat $file_name
+      cat $file_name | tr -d "b"
+
+      rm $file_name
+    #+END_SRC
+
+    #+RESULTS:
+    | thibs | habbbbs | abbbb | lbot | of | jbbbunk | in | ibbbt. |
+    | this  | has     | a     | lot  | of | junk    | in | it.    |
+
+
+    It can do a lot of other neat stuff, too.
+
+*** Turning off output
+
+    It can be useful (especially when asking for passwords) to turn off
+    repeating what the user types in the terminal. To do that, run ~stty -echo~
+    and to turn it back on again ~stty echo~
+
+    This can be particularly useful when combined with ~read~.
