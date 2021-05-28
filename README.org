@@ -244,3 +244,31 @@
     and to turn it back on again ~stty echo~
 
     This can be particularly useful when combined with ~read~.
+
+*** Script arguments
+
+    You can get to shell script parameters using ~$number~ and if you need to go
+    above 9, you have to surround the number in curly braces.
+
+    #+BEGIN_SRC shell :tangle chapter2_args.sh
+      echo "Arg 1 is $1"
+      echo "Arg 11 is ${11}"
+    #+END_SRC
+    
+*** Grep
+
+    Grep parses input for lines that match a specific pattern
+    
+**** Looking for a particular user
+
+     If you wanted to use a script to find a specific logged in user on your
+     machine, you could write something like
+
+     #+BEGIN_SRC shell :tangle chapter2_grep.sh
+       who | grep $1
+     #+END_SRC
+
+*** Execution tracing
+
+    To debug, you can use ~sh -x [script]~ You can also use ~set -x~ and ~set
+    +x~ to turn tracing on and off (respectively) within a script.
