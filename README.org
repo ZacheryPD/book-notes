@@ -272,3 +272,15 @@
 
     To debug, you can use ~sh -x [script]~ You can also use ~set -x~ and ~set
     +x~ to turn tracing on and off (respectively) within a script.
+
+** Chapter 3
+
+   Quick aside about quotes in zsh... You can't embed a single quote inside a
+   quoted text. Even escaping it doesn't work for some (I'm sure legacy) reason.
+   So in order to get a single quote inside the character set here, I have to
+   end the single quote text ~'~, input an escaped single quote ~\'~ and then
+   put a new single quote to continue the string ~'~. So put together, it's
+   ~'\''~. This makes no sense, but it is what it is.
+   #+BEGIN_SRC shell
+     grep '\(['\''"]\)' test.txt 
+   #+END_SRC
