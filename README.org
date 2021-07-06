@@ -275,12 +275,33 @@
 
 ** Chapter 3
 
+*** Quotes in bash
+   
    Quick aside about quotes in zsh... You can't embed a single quote inside a
    quoted text. Even escaping it doesn't work for some (I'm sure legacy) reason.
    So in order to get a single quote inside the character set here, I have to
-   end the single quote text ~'~, input an escaped single quote ~\'~ and then
+   end the single quote text ~'~ , input an escaped single quote ~\'~ and then
    put a new single quote to continue the string ~'~. So put together, it's
    ~'\''~. This makes no sense, but it is what it is.
+
+   Thankfully, the same is not true of double quotes. Notice in the following
+   example that the ~echo~ line is using double quotes and escaping the internal
+   double quotes, but the regular expression (which is looking for items that
+   have a single or double quote in the line) is doing this crazy single-quote
+   escaping.
+   
    #+BEGIN_SRC shell
-     grep '\(['\''"]\)' test.txt 
+     echo "'foo'\nbar\n\"asdf\"" | grep '\(['\''"]\)' 
    #+END_SRC
+
+   #+RESULTS:
+   | 'foo' |
+   | asdf  |
+
+*** Backreferences
+
+   #+BEGIN_SRC shell
+     echo "'foo'\nbar\n\"asdf\"" | grep "\(['\"]\).+\1"
+   #+END_SRC
+
+   #+RESULTS:
