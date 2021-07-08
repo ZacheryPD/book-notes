@@ -256,7 +256,7 @@
     #+END_SRC
     
 *** Grep
-
+    
     Grep parses input for lines that match a specific pattern
     
 **** Looking for a particular user
@@ -299,9 +299,27 @@
    | asdf  |
 
 *** Backreferences
+    
+    A backreference is a way to refer to something in a previous capture group
+    in your pattern. For example, if I wanted to match lines that contained
+    words (or groups of words) enclosed in either a double or a single quote, I
+    would do something like this:
 
    #+BEGIN_SRC shell
-     echo "'foo'\nbar\n\"asdf\"" | grep "\(['\"]\).+\1"
+     echo "'foo'\nbar\n\"asdf\"\n'one\n\"two'" | grep "\(['\"]\).\+\1"
    #+END_SRC
 
    #+RESULTS:
+   | 'foo' |
+   | asdf  |
+
+   Notice that the first step is to match either a single or double quote in the
+   first capture group. Then, we match any string of characters (including
+   whitespace) of at least one or more, followed by "whatever was matched in the
+   first capture group."
+
+   Notice that it isn't "whatever capture class was in that group." If we had
+   matched on ~[:alpha:]~ text substituted for ~\1~ would have been the _exact
+   text_ from the previous capture group, *not* the character class. This is why
+   the text does not match a line that starts with a single quote and ends with
+   a double quote, for example.
