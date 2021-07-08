@@ -323,3 +323,29 @@
    text_ from the previous capture group, *not* the character class. This is why
    the text does not match a line that starts with a single quote and ends with
    a double quote, for example.
+
+*** Matching many characters at once
+
+    So far, we have mostly used ~.~ and ~\+~ or ~*~ to match multiple
+    characters, but there are tons of ways to match more specifically.
+
+**** BREs
+
+     BREs have a rather odd syntax for matching specific classes.
+
+     #+BEGIN_SRC shell 
+       echo "lowercase text\nUPPERCASE TEXT" | grep "[[:upper:]]"
+     #+END_SRC
+
+     #+RESULTS:
+     : UPPERCASE TEXT
+
+     There are other classes for:
+     - lower
+     - digit
+     - and many others!
+
+     That said, the most interesting things that you can do with regular
+     expressions is match more than just a single character in that class.
+     Usually, I'll do this using either ~*~ (match zero or more) or ~\+~ (match
+     one or more).
