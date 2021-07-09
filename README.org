@@ -349,3 +349,18 @@
      expressions is match more than just a single character in that class.
      Usually, I'll do this using either ~*~ (match zero or more) or ~\+~ (match
      one or more).
+     
+**** ERE
+
+     EREs have the more modern (Perl style?) syntax for equivalence classes.
+     some of my favorites are:
+
+     - ~\d~ :: Matches digits
+     - ~\s~ :: Matches whitespace
+     - ~\w~ :: Matches "word" characters
+
+     And many of these can be capitalized to mean "Not x" so ~\S~ means "non
+     whitespace".
+     
+     Matching repeating characters/classes works similarly to BREs: ~*~ still
+     matches "zero or more" but ~+~ matches "one or more" (no backslash).
