@@ -364,3 +364,40 @@
      
      Matching repeating characters/classes works similarly to BREs: ~*~ still
      matches "zero or more" but ~+~ matches "one or more" (no backslash).
+     
+**** Intervals
+
+     Intervals give a way to match a specific number of characters. Think of it
+     like ~*~ but with more flexibility. For example:
+     
+     #+BEGIN_SRC shell
+       echo "AAAB" | grep -G "A\{3\}B"    # Match 3 A's and a B
+       echo "AAAB" | grep -G "A\{3,\}B"   # Match at least 3 A's (but possibly more) and a B
+       echo "AAAB" | grep -G "A\{2,4\}B" # Match betwen 2 and 3 A's and a B
+     #+END_SRC
+
+     #+RESULTS:
+     | AAAB |
+     | AAAB |
+     | AAAB |
+
+     If you want to use an ERE, just drop the backslashes. Note the lack of a
+     space after the comma.
+
+**** Notes
+
+     Unfortunately, ~+~ and ~?~ are ERE only.
+
+**** Word matching
+
+     This isn't part of the standard, but most Unix programs will treat ~\<~ and
+     ~\>~ as word boundaries.
+
+     #+BEGIN_SRC shell
+       echo "This is a test" | grep "\<is\>" # Should match only "is"
+       echo "This is a test" | grep "is\>"   # Should match both "is" and "this"
+     #+END_SRC
+
+     #+RESULTS:
+     | This | is | a | test |
+     | This | is | a | test |
