@@ -403,4 +403,28 @@
 
 ** Sed
 
-   Sed is a simple program to do text substitution using regular expressions.
+   Sed is a simple program to do text substitution using regular expressions. I
+   have used this before, so I am not going to go into every example.
+
+*** & 
+
+    One interesting thing about sed is that in a substitution expression, you
+    can represent "the entire matched expression" for ~&~. So if I wanted to
+    replace all instances of my name with a note explaining my nickname, I could
+    do something like this.
+
+    #+BEGIN_SRC shell  
+      sed -e s/Zach/& (Hipster)/g file.txt
+    #+END_SRC
+    
+    If you really wanted an & character, just use ~\&~.
+    
+    
+*** n-th replace
+
+    If you really want to do something weird, you can replace only the n-th
+    instance of an expression on a line by replacing ~g~ with ~n~.
+
+    #+BEGIN_SRC shell
+      sed -e s/Zach/& (Hipster)/3 file.txt
+    #+END_SRC
