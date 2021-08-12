@@ -446,3 +446,7 @@
     Sed will actually store the "previous matching expression" for use later, so
     if you want to run the same thing multiple times (such as when taking
     multiple passes over something) you can just put a blank expression!
+
+*** ~-n~
+
+    The ~-n~ option prevents sed from printing when it matches something
