@@ -428,3 +428,21 @@
     #+BEGIN_SRC shell
       sed -e s/Zach/& (Hipster)/3 file.txt
     #+END_SRC
+
+
+*** Multiple substitutions
+
+    If you want to run multiple substitutions, you can provide multiple ~-e~
+    options with separate expressions to be run one after the other.
+
+    That said, if you have many edits, just use a script file with the ~-f~
+    option.
+
+    Also, (but don't do this) you can actually separate multiple expressions in
+    the same ~-e~ using a semicolon.
+
+*** Do it again...
+
+    Sed will actually store the "previous matching expression" for use later, so
+    if you want to run the same thing multiple times (such as when taking
+    multiple passes over something) you can just put a blank expression!
