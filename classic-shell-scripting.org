@@ -429,7 +429,7 @@
       sed -e s/Zach/& (Hipster)/3 file.txt
     #+END_SRC
 
-
+    
 *** Multiple substitutions
 
     If you want to run multiple substitutions, you can provide multiple ~-e~
@@ -449,4 +449,36 @@
 
 *** ~-n~
 
-    The ~-n~ option prevents sed from printing when it matches something
+    The ~-n~ option prevents sed from printing when it matches something. This
+    sounds not super useful, but there is also the ~p~ command. Unlike the ~s~
+    command that we have been using so far, ~p~ goes at the /end/ of a command,
+    and it tells sed to print something.
+
+    #+begin_src shell
+      echo "things\nfoo\nwhat\nbar\n stuff"  | sed -n /foo/,/bar/p
+    #+end_src
+
+    #+RESULTS:
+    | foo  |
+    | what |
+    | bar  |
+
+*** Ranges
+
+    If you prefix a command with certain special things, you can also control
+    the line(s) that something executes on. In the previous examples, the
+    expressions separated by commas were in effect saying "perform something
+    only on lines between the words "foo" and "bar".
+
+*** Negation
+  
+    You can use ~!~ to mean "not" in a range. So the following expression prints
+    only lines that do not start with "used".
+    
+    #+begin_src shell
+      echo "new: origin of species\nused: bible\nnew: history of the world\nused: Hitchikers Guide to the Galaxy" | sed -n /^used/!p
+    #+end_src
+
+    #+RESULTS:
+    | new: | origin  | of | species |       |
+    | new: | history | of | the     | world |
