@@ -482,3 +482,5 @@
     #+RESULTS:
     | new: | origin  | of | species |       |
     | new: | history | of | the     | world |
+
+** Cut
