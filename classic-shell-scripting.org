@@ -593,3 +593,36 @@
    | nm-openvpn:/var/lib/openvpn/chroot            |
 
 ** Join
+
+  
+#+begin_src shell
+  # Create some TMP files
+  
+  echo "# Sales data" > sales
+  echo "# salesperson\tamout" >> sales
+  echo "joe\t100" >> sales
+  echo "jane\t200" >> sales
+  echo "herman\t140" >> sales
+  echo "chris\t300" >> sales
+  
+  echo "# Quotas " > quota
+  echo "# person\tamout" >> quota
+  echo "joe\t50" >> quota
+  echo "jane\t75" >> quota
+  echo "herman\t80" >> quota
+  echo "chris\t95" >> quota
+  
+  # Remove comments & sort
+  sed '/^#/d' quota | sort > quota.sorted
+  sed '/^#/d' sales | sort > sales.sorted
+  
+  join quota.sorted sales.sorted
+  
+  rm quota.sorted sales.sorted quota sales
+#+end_src
+
+#+RESULTS:
+| chris  | 95 | 300 |
+| herman | 80 | 140 |
+| jane   | 75 | 200 |
+| joe    | 50 | 100 |
