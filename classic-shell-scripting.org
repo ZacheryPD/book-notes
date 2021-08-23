@@ -276,26 +276,26 @@
 
 ** Quotes in bash
    
-  Quick aside about quotes in zsh... You can't embed a single quote inside a
-  quoted text. Even escaping it doesn't work for some (I'm sure legacy) reason.
-  So in order to get a single quote inside the character set here, I have to
-  end the single quote text ~'~ , input an escaped single quote ~\'~ and then
-  put a new single quote to continue the string ~'~. So put together, it's
-  ~'\''~. This makes no sense, but it is what it is.
+   Quick aside about quotes in zsh... You can't embed a single quote inside a
+   quoted text. Even escaping it doesn't work for some (I'm sure legacy) reason.
+   So in order to get a single quote inside the character set here, I have to
+   end the single quote text ~'~ , input an escaped single quote ~\'~ and then
+   put a new single quote to continue the string ~'~. So put together, it's
+   ~'\''~. This makes no sense, but it is what it is.
 
-  Thankfully, the same is not true of double quotes. Notice in the following
-  example that the ~echo~ line is using double quotes and escaping the internal
-  double quotes, but the regular expression (which is looking for items that
-  have a single or double quote in the line) is doing this crazy single-quote
-  escaping.
+   Thankfully, the same is not true of double quotes. Notice in the following
+   example that the ~echo~ line is using double quotes and escaping the internal
+   double quotes, but the regular expression (which is looking for items that
+   have a single or double quote in the line) is doing this crazy single-quote
+   escaping.
    
-  #+BEGIN_SRC shell
-    echo "'foo'\nbar\n\"asdf\"" | grep '\(['\''"]\)' 
-  #+END_SRC
+   #+BEGIN_SRC shell
+     echo "'foo'\nbar\n\"asdf\"" | grep '\(['\''"]\)' 
+   #+END_SRC
 
-  #+RESULTS:
-  | 'foo' |
-  | asdf  |
+   #+RESULTS:
+   | 'foo' |
+   | asdf  |
 
 ** Backreferences
     
@@ -304,24 +304,24 @@
    words (or groups of words) enclosed in either a double or a single quote, I
    would do something like this:
 
-  #+BEGIN_SRC shell
-    echo "'foo'\nbar\n\"asdf\"\n'one\n\"two'" | grep "\(['\"]\).\+\1"
-  #+END_SRC
+   #+BEGIN_SRC shell
+     echo "'foo'\nbar\n\"asdf\"\n'one\n\"two'" | grep "\(['\"]\).\+\1"
+   #+END_SRC
 
-  #+RESULTS:
-  | 'foo' |
-  | asdf  |
+   #+RESULTS:
+   | 'foo' |
+   | asdf  |
 
-  Notice that the first step is to match either a single or double quote in the
-  first capture group. Then, we match any string of characters (including
-  whitespace) of at least one or more, followed by "whatever was matched in the
-  first capture group."
+   Notice that the first step is to match either a single or double quote in the
+   first capture group. Then, we match any string of characters (including
+   whitespace) of at least one or more, followed by "whatever was matched in the
+   first capture group."
 
-  Notice that it isn't "whatever capture class was in that group." If we had
-  matched on ~[:alpha:]~ text substituted for ~\1~ would have been the _exact
-  text_ from the previous capture group, *not* the character class. This is why
-  the text does not match a line that starts with a single quote and ends with
-  a double quote, for example.
+   Notice that it isn't "whatever capture class was in that group." If we had
+   matched on ~[:alpha:]~ text substituted for ~\1~ would have been the _exact
+   text_ from the previous capture group, *not* the character class. This is why
+   the text does not match a line that starts with a single quote and ends with
+   a double quote, for example.
 
 ** Matching many characters at once
 
@@ -595,34 +595,148 @@
 ** Join
 
   
-#+begin_src shell
-  # Create some TMP files
-  
-  echo "# Sales data" > sales
-  echo "# salesperson\tamout" >> sales
-  echo "joe\t100" >> sales
-  echo "jane\t200" >> sales
-  echo "herman\t140" >> sales
-  echo "chris\t300" >> sales
-  
-  echo "# Quotas " > quota
-  echo "# person\tamout" >> quota
-  echo "joe\t50" >> quota
-  echo "jane\t75" >> quota
-  echo "herman\t80" >> quota
-  echo "chris\t95" >> quota
-  
-  # Remove comments & sort
-  sed '/^#/d' quota | sort > quota.sorted
-  sed '/^#/d' sales | sort > sales.sorted
-  
-  join quota.sorted sales.sorted
-  
-  rm quota.sorted sales.sorted quota sales
-#+end_src
+   #+begin_src shell
+     # Create some TMP files
+     
+     echo "# Sales data" > sales
+     echo "# salesperson\tamout" >> sales
+     echo "joe\t100" >> sales
+     echo "jane\t200" >> sales
+     echo "herman\t140" >> sales
+     echo "chris\t300" >> sales
+     
+     echo "# Quotas " > quota
+     echo "# person\tamout" >> quota
+     echo "joe\t50" >> quota
+     echo "jane\t75" >> quota
+     echo "herman\t80" >> quota
+     echo "chris\t95" >> quota
+     
+     # Remove comments & sort
+     sed '/^#/d' quota | sort > quota.sorted
+     sed '/^#/d' sales | sort > sales.sorted
+     
+     join quota.sorted sales.sorted
+     
+     rm quota.sorted sales.sorted quota sales
+   #+end_src
 
-#+RESULTS:
-| chris  | 95 | 300 |
-| herman | 80 | 140 |
-| jane   | 75 | 200 |
-| joe    | 50 | 100 |
+   #+RESULTS:
+   | chris  | 95 | 300 |
+   | herman | 80 | 140 |
+   | jane   | 75 | 200 |
+   | joe    | 50 | 100 |
+
+** Awk
+
+   Awk is a whole scripting language of its own, but you can use it to access
+   fields very easily using the syntax ~$numbr~. So to get the home directory
+   out of /etc/passwd you would use something like:
+   
+  
+   #+begin_src shell
+     awk -F: '{print $6}' /etc/passwd
+   #+end_src
+
+   #+RESULTS:
+   | /root                     |
+   | /usr/sbin                 |
+   | /bin                      |
+   | /dev                      |
+   | /bin                      |
+   | /usr/games                |
+   | /var/cache/man            |
+   | /var/spool/lpd            |
+   | /var/mail                 |
+   | /var/spool/news           |
+   | /var/spool/uucp           |
+   | /bin                      |
+   | /var/www                  |
+   | /var/backups              |
+   | /var/list                 |
+   | /run/ircd                 |
+   | /var/lib/gnats            |
+   | /nonexistent              |
+   | /run/systemd              |
+   | /run/systemd              |
+   | /run/systemd              |
+   | /nonexistent              |
+   | /home/syslog              |
+   | /nonexistent              |
+   | /var/lib/geoclue          |
+   | /var/lib/colord           |
+   | /run/gnome-initial-setup/ |
+   | /run/speech-dispatcher    |
+   | /var/lib/gdm3             |
+   | /var/lib/avahi-autoipd    |
+   | /run/avahi-daemon         |
+   | /var/lib/tpm              |
+   | /var/run/pulse            |
+   | /proc                     |
+   | /var/lib/usbmux           |
+   | /nonexistent              |
+   | /home/cups-pk-helper      |
+   | /var/lib/saned            |
+   | /var/lib/misc             |
+   | /nonexistent              |
+   | /run/uuidd                |
+   | /home/zacherydelong       |
+   | /var/lib/openvpn/chroot   |
+
+   Note the usage of the ~-F~ option. It is setting the file separator variable.
+   You could just set that shell variable, though it's probably cleaner to do it
+   this way.
+
+   You can also set the output field separator, but you have to use the ~-v~
+   option which is a bit clumsy.
+
+  
+   #+begin_src shell
+     awk -F: -v 'OFS=\t' '{ print $1, $6 }'  /etc/passwd
+   #+end_src
+
+   #+RESULTS:
+   | root                | /root                     |
+   | daemon              | /usr/sbin                 |
+   | bin                 | /bin                      |
+   | sys                 | /dev                      |
+   | sync                | /bin                      |
+   | games               | /usr/games                |
+   | man                 | /var/cache/man            |
+   | lp                  | /var/spool/lpd            |
+   | mail                | /var/mail                 |
+   | news                | /var/spool/news           |
+   | uucp                | /var/spool/uucp           |
+   | proxy               | /bin                      |
+   | www-data            | /var/www                  |
+   | backup              | /var/backups              |
+   | list                | /var/list                 |
+   | irc                 | /run/ircd                 |
+   | gnats               | /var/lib/gnats            |
+   | nobody              | /nonexistent              |
+   | systemd-timesync    | /run/systemd              |
+   | systemd-network     | /run/systemd              |
+   | systemd-resolve     | /run/systemd              |
+   | messagebus          | /nonexistent              |
+   | syslog              | /home/syslog              |
+   | _apt                | /nonexistent              |
+   | geoclue             | /var/lib/geoclue          |
+   | colord              | /var/lib/colord           |
+   | gnome-initial-setup | /run/gnome-initial-setup/ |
+   | speech-dispatcher   | /run/speech-dispatcher    |
+   | gdm                 | /var/lib/gdm3             |
+   | avahi-autoipd       | /var/lib/avahi-autoipd    |
+   | avahi               | /run/avahi-daemon         |
+   | tss                 | /var/lib/tpm              |
+   | pulse               | /var/run/pulse            |
+   | rtkit               | /proc                     |
+   | usbmux              | /var/lib/usbmux           |
+   | _flatpak            | /nonexistent              |
+   | cups-pk-helper      | /home/cups-pk-helper      |
+   | saned               | /var/lib/saned            |
+   | dnsmasq             | /var/lib/misc             |
+   | tcpdump             | /nonexistent              |
+   | uuidd               | /run/uuidd                |
+   | systemd-coredump    | /                         |
+   | zacherydelong       | /home/zacherydelong       |
+   | nm-openvpn          | /var/lib/openvpn/chroot   |
