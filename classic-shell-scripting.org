@@ -847,3 +847,18 @@
     | Number | of | Fields | is | 7 |
     | Number | of | Fields | is | 7 |
     | Number | of | Fields | is | 7 |
+
+    It's worth noting, too, that you can have ranges before any of the commands
+    to limit to a certain pattern or number of lines.
+
+    Furthermore, if you have initialization and teardown steps, you can add
+    lines like:
+    
+    #+begin_src shell
+      BEGIN { initialization }
+      END { tear down }
+    #+end_src
+
+    This is more useful with awk script files, though. You can put the ~BEGIN~
+    and ~END~ code anywhere, but you should put it at the actual beginning and
+    end of the script.
