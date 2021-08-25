@@ -740,3 +740,110 @@
    | systemd-coredump    | /                         |
    | zacherydelong       | /home/zacherydelong       |
    | nm-openvpn          | /var/lib/openvpn/chroot   |
+
+   There are various magic variables that ~awk~ can understand. The most common
+   one is ~NF~ which represents the "number of fields". On most machines you can
+   print it using ~$NF~ but for whatever reason, PopOS wants just ~NF~ as in
+   this example.
+
+    #+begin_src shell
+      awk -F: -v 'OFS=\t' '{ print "# Fields: " NF }'  /etc/passwd
+    #+end_src
+
+    #+RESULTS:
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+    | Fields: | 7 |
+
+    You can also use a C-style ~printf~
+
+    #+begin_src shell
+      awk -F: '{ printf "Number of Fields is %d\n", NF}' /etc/passwd
+    #+end_src
+
+    #+RESULTS:
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
+    | Number | of | Fields | is | 7 |
