@@ -862,3 +862,28 @@
     This is more useful with awk script files, though. You can put the ~BEGIN~
     and ~END~ code anywhere, but you should put it at the actual beginning and
     end of the script.
+
+* Chapter 4
+
+** Sort
+
+   Given field-separated input, sort it in some order by some keys.
+
+   + -b :: Ignore leading whitespace
+   + -c :: Check if input is srted
+   + -d :: Dictionary sort order only considers alphanumeric and whitespace
+   + -g :: General numeric value, compare as floats
+   + -f :: Fold letters (effectively makes the sort case insensitive)
+   + -i :: Ignores nonprintable characters
+   + -k :: Specify the sort key field
+   + -m :: Merge already sorted input files into an output stream [fn:1]
+   + -n :: compare fields as integer numers
+   + -o outfile :: Write to a file instead of stdout
+   + -r :: reverse sort order
+   + -t char :: set field separator to a single char
+   + -u :: Unique fields only discard all but the first encountered value for
+     each value
+
+* Footnotes
+
+[fn:1] Not sure why you'd use this over something like awk or join
