@@ -884,6 +884,47 @@
    + -u :: Unique fields only discard all but the first encountered value for
      each value
 
+  #+begin_src shell
+    echo "Zach:1\nJake:3\nZim:2\nFred:5\nTaryn:10" > names.unordered
+    
+    sort -t: -k1 names.unordered
+    echo ""
+    sort -t: -k2n names.unordered
+    
+    rm names.unordered
+  #+end_src
+
+  #+RESULTS:
+  | Fred:5   |
+  | Jake:3   |
+  | Taryn:10 |
+  | Zach:1   |
+  | Zim:2    |
+  |          |
+  | Zach:1   |
+  | Zim:2    |
+  | Jake:3   |
+  | Fred:5   |
+  | Taryn:10 |
+
+  Sorting is pretty dependent on your locale, which you can customize.
+
+  You can also filter only to unique records using ~-u~.
+
+  Note! Posix doesn't mandate that sort be stable (meaning two inputs that are
+  equal are preserved in the same order.) If you need stability and are using
+  GNU Sort, use the ~-stable~ option.
+  
+** gsub
+
+   In awk, you can use the gsub function to make a "global substitution" in the
+   form ~awk '{ gsub("ReplaceWith", "ReplaceThis"); print }'~. This can be
+   really useful when processing large chunks of input.
+   
+** uniq
+
+   Uniq (unsurprisingly) removes duplicate items. you can use ~-d~ to show only
+   duplicate options. You can also use ~-c~ to count the groups.
 * Footnotes
 
 [fn:1] Not sure why you'd use this over something like awk or join
