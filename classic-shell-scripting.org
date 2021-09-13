@@ -925,6 +925,24 @@
 
    Uniq (unsurprisingly) removes duplicate items. you can use ~-d~ to show only
    duplicate options. You can also use ~-c~ to count the groups.
+
+** fmt
+
+   fmt is not well standardized across systems, but it can be used to reformat
+   text. It has two main options:
+
+   + ~-s~ :: "split" long lines but do not join short ones
+   + -w :: forces to some # of characters per line
+    
+     #+begin_src shell
+       sed -n -e 9995,10004p /etc/dictionaries-common/words | fmt -w 50
+     #+end_src
+
+     #+RESULTS:
+     | Lafayette    | Lafayette's | Lafitte  | Lafitte's  |            |
+     | Lagos        | Lagos's     | Lagrange | Lagrange's | Lagrangian |
+     | Lagrangian's |             |          |            |            |
+
 * Footnotes
 
 [fn:1] Not sure why you'd use this over something like awk or join
