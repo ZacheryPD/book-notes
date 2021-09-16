@@ -943,6 +943,32 @@
      | Lagos        | Lagos's     | Lagrange | Lagrange's | Lagrangian |
      | Lagrangian's |             |          |            |            |
 
+** wc
+
+   We have already encountered [[https://support.system76.com/articles/desktop-environment][wc once before]] but it has a few options we
+   haven't used.
+
+   + -c :: count characters only
+   + -m :: count multibyte characters
+     
+  #+begin_src shell
+    printf "counting characters" -n | wc -c
+    printf "counting characters" -n | wc -m
+  #+end_src
+
+  #+RESULTS:
+  | 19 |
+  | 19 |
+  
+  #+begin_src shell
+    printf '\xE2\x98\xA0' -n | wc -c
+    printf '\xE2\x98\xA0' -n | wc -m
+  #+end_src
+
+  #+RESULTS:
+  | 3 |
+  | 1 |
+
 * Footnotes
 
 [fn:1] Not sure why you'd use this over something like awk or join
