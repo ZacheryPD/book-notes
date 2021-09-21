@@ -968,6 +968,64 @@
   #+RESULTS:
   | 3 |
   | 1 |
+  
+* Chapter 5
+
+  The goal of this chapter is to show how pipes work, so we will build a script
+  to create an office directory from the /etc/passwd file. Before we get too far
+  into that, we should set the shell to execute and document our script a little
+  bit. Notice the use of the term "filter". That just means it takes its input
+  from stdin and writes to stdout.
+  
+  #+begin_src shell :tangle passwd-to-directory
+    #! /bin/sh
+    #
+    # Filter input (intended for /etc/passwd), outputs an office directory from
+    # input
+    #
+    # Usage:
+    #  passwd-to-directory < /etc/passwd > office-directory-file
+  #+end_src
+
+  We can assume that all the information we are processing in this program is
+  public, but that isn't a safe assumption in general, so we will set ~umask~ to
+  limit what can read/write to files that the program generates.
+
+  #+begin_src shell :tangle passwd-to-directory
+    umask 077
+  #+end_src
+
+  We also need some temporary files, and to make sure they get cleaned up
+  eventually, we should put them in ~/tmp~. It's also a good idea to make sure
+  there is something unique to each process in the names so that we can run
+  multiple instances of the program at once without conflicting. To that end, we
+  can use the magic variable ~$$~ (process number) in the names!
+
+  #+begin_src shell :tangle passwd-to-directory
+    PERSON=/tmp/pd.key.person.$$
+    OFFICE=/tmp/pd.key.office.$$
+    TELEPHONE=/tmp/pd.key.telephone.$$
+    USER=/tmp/pd.key.user.$$
+  #+end_src
+
+  We can also use the "trap" command to ensure that the files will be totally
+  deleted when the program exits.
+
+  #+begin_src shell :tangle passwd-to-directory
+    trap "exit 1"
+    trap "rm -f $PERSON $OFFICE $TELEPHONE $USER" EXIT
+  #+end_src
+
+  The first step is to grab columns 1 and 5 from the input and map them to the
+  user file. I added in the sed line because my operating system (PopOS! 21.04)
+  appears to be adding a csv set to the username field, but there isn't anything
+  in the csv but the name, so I can just discard it.
+
+  #+begin_src shell :tangle passwd-to-directory
+    awk -F: '{ print $1 ":" $5 }' | sed "s/,//g" > $USER
+    
+    cat $USER
+  #+end_src
 
 * Footnotes
 
