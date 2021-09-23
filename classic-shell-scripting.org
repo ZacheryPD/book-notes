@@ -1015,12 +1015,36 @@
 
   #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
     awk -F: '{ print $1 ":" $5 }' | sed "s/,//g" > $USER
-    
-    cat $USER
   #+end_src
+
+  Since this script is assuming that there is extra data in the 5th field (my
+  distro doesn't actually have that data) this next step seems a bit silly and
+  could be left off or written differently in a different system.
+
+  #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
+    sed -e 's=/.*= =' \
+        -e 's=^\([^:]*\):\(.*\) \([^ ]*\)1 =\1:\3, \2=' < $USER | sort > $PERSON
+    
+    cat $PERSON
+  #+end_src
+
+  Notice a couple of clever things
+
+  + The usage of ~[^:]:~ to match anything up to a colon
+  + the usage of ~\~ to break a command into multiple lines
+  + The usage of multiple ~-e~ which are performed in order
+  + The usage of ~=~ as the separator instead of the standard ~/~
   
   We can also use the "trap" command to ensure that the files will be totally
   deleted when the program exits.
+
+  Next up, we need to make the "office" file.
+
+  #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
+    sed -e 's=^\([^:]*\):[^/]*/\([^/]*\)/.*$=\1:\2=' < $USER | sort > $OFFICE
+    
+    cat $OFFICE
+  #+end_src
 
   #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
     trap "exit 1" HUP INT PIPE QUIT TERM
