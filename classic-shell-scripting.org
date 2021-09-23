@@ -1008,14 +1008,6 @@
     USER=/tmp/pd.key.user.$$
   #+end_src
 
-  We can also use the "trap" command to ensure that the files will be totally
-  deleted when the program exits.
-
-  #+begin_src shell :tangle passwd-to-directory
-    trap "exit 1"
-    trap "rm -f $PERSON $OFFICE $TELEPHONE $USER" EXIT
-  #+end_src
-
   The first step is to grab columns 1 and 5 from the input and map them to the
   user file. I added in the sed line because my operating system (PopOS! 21.04)
   appears to be adding a csv set to the username field, but there isn't anything
@@ -1025,6 +1017,14 @@
     awk -F: '{ print $1 ":" $5 }' | sed "s/,//g" > $USER
     
     cat $USER
+  #+end_src
+  
+  We can also use the "trap" command to ensure that the files will be totally
+  deleted when the program exits.
+
+  #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
+    trap "exit 1" HUP INT PIPE QUIT TERM
+    trap "rm -f $PERSON $OFFICE $TELEPHONE $USER" EXIT
   #+end_src
 
 * Footnotes
