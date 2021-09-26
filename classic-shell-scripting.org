@@ -1052,12 +1052,20 @@
     sed -e 's=^\([^:]*\):[^/]*/\([^/]*\)/.*$=\1:\2=' < $USER | sort > $OFFICE
   #+end_src
 
-  And, finally, we create the telephone fil
+  And, finally, we create the telephone file
   #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
     sed -e 's=^\([^:]*\):[^/]*/[^/]*/\([^/]*\)=\1:\2=' < $USER | sort > $TELEPHONE
-    cat $TELEPHONE
   #+end_src
-e
+
+  Then we can use the ~join~ command to join each of our temp files together.
+  
+  #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
+    join -t: $PERSON $OFFICE |
+        join -t: - $TELEPHONE |
+        cut -d: -f 2- |
+        sort -t: -k1,1 -k2,2 -k3,3 |
+        awk -F: '{ printf("%-39s\t%s\t%s\n", $1, $2, $3) }'
+  #+end_src
 
   #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
     trap "exit 1" HUP INT PIPE QUIT TERM
