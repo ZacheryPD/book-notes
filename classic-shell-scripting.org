@@ -977,6 +977,19 @@
   bit. Notice the use of the term "filter". That just means it takes its input
   from stdin and writes to stdout.
   
+  We will use this as input
+  
+  #+begin_src shell mkdirp yes :tangle classic-shell-scripting/chapter5-passwd
+    jones:*:32713:899:Adrian W. Jones/OSD211/555-0123:/home/jones:/bin/ksh
+    dorothy:*:123:30:Dorothy Gale/KNS321/555-0044:/home/dorothy:/bin/bash
+    toto:*:1027:18:Toto Gale/KNS322/555-0045:/home/toto:/bin/tcsh
+    ben:*:301:10:Ben Franklin/OSD212/555-0022:/home/ben:/bin/bash
+    jhancock:*:1457:57:John Hancock/SIG435/555-0099:/home/jhancock:/bin/bash
+    betsy:*:110:20:Betsy Ross/BMD17/555-0033:/home/betsy:/bin/ksh
+    tj:*:60:33:Thomas Jefferson/BMD19/555-0095:/home/tj:/bin/bash
+    george:*:692:42:George Washington/BST999/555-0001:/home/george:/bin/tcsh
+  #+end_src
+  
   #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
     #! /bin/sh
     #
@@ -1009,12 +1022,10 @@
   #+end_src
 
   The first step is to grab columns 1 and 5 from the input and map them to the
-  user file. I added in the sed line because my operating system (PopOS! 21.04)
-  appears to be adding a csv set to the username field, but there isn't anything
-  in the csv but the name, so I can just discard it.
-
+  user file. 
+  
   #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
-    awk -F: '{ print $1 ":" $5 }' | sed "s/,//g" > $USER
+    awk -F: '{ print $1 ":" $5 }' > $USER
   #+end_src
 
   Since this script is assuming that there is extra data in the 5th field (my
@@ -1024,8 +1035,6 @@
   #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
     sed -e 's=/.*= =' \
         -e 's=^\([^:]*\):\(.*\) \([^ ]*\)1 =\1:\3, \2=' < $USER | sort > $PERSON
-    
-    cat $PERSON
   #+end_src
 
   Notice a couple of clever things
@@ -1039,12 +1048,16 @@
   deleted when the program exits.
 
   Next up, we need to make the "office" file.
-
   #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
     sed -e 's=^\([^:]*\):[^/]*/\([^/]*\)/.*$=\1:\2=' < $USER | sort > $OFFICE
-    
-    cat $OFFICE
   #+end_src
+
+  And, finally, we create the telephone fil
+  #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
+    sed -e 's=^\([^:]*\):[^/]*/[^/]*/\([^/]*\)=\1:\2=' < $USER | sort > $TELEPHONE
+    cat $TELEPHONE
+  #+end_src
+e
 
   #+begin_src shell :mkdirp yes :tangle classic-shell-scripting/passwd-to-directory
     trap "exit 1" HUP INT PIPE QUIT TERM
